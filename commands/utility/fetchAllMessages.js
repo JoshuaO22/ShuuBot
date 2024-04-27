@@ -19,7 +19,11 @@ module.exports = {
 			// Create message pointer
 			let message = await channel.messages
 				.fetch({ limit: 1})
-				.then(messagePage => (messagePage.size === 1 ? messagePage.at(0) : null))
+				.then(messagePage => {
+					let msg = messagePage.at(0);
+					messages.push(msg);
+					return messagePage.size === 1 ? msg : null;
+				})
 				.catch(error => {
 					isError = true;
 					console.log("Failed to get messages. Error: " + error);
@@ -42,7 +46,11 @@ module.exports = {
 					});
 			}
 
-			console.log(messages)
+			console.log(messages[0])
+
+			// for (let i = messages.length; i >= 0; i--) {
+
+			// }
 
 			if (isError) {
 				await interaction.reply('Error! Does the bot have the correct permissions?');
