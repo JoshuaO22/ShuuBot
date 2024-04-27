@@ -13,7 +13,6 @@ module.exports = {
 	async execute(interaction) { // TODO: test for different symbols in text like S̵͑̃a̵̓̕ď̴̆i̷͛̋e̸͌͂.
 		if (interaction.user.id == "200021544993292291" || interaction.user.id == "407689241112346635") { // Me and Koro's discord id
 			const channel = interaction.options.getChannel('channel');
-			// console.log(interaction.guild);
 			let messages = [];
 
 			let isError = false;
@@ -46,7 +45,7 @@ module.exports = {
 			console.log(messages)
 
 			if (isError) {
-			await interaction.reply('Error! Does the bot have the correct permissions?');
+				await interaction.reply('Error! Does the bot have the correct permissions?');
 			} else {
 				await interaction.reply('Successfully got messages.');
 			}
