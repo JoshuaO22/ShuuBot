@@ -43,10 +43,11 @@ module.exports = {
 
 				await interaction.editReply('Successfully got all messages. Formatting and converting into JSON.....');
 
+				let formattedmessages = [];
 				for (let i = messages.length - 1; i >= 0; i--) {
 					let msg = {
-						"guildId" : messages[i].guildId,
-						"channelId" : messages[i].channelId,
+						//"guildId" : messages[i].guildId,
+						//"channelId" : messages[i].channelId,
 						"messageId" : messages[i].id,
 						"username" : messages[i].author.username,
 						"userId" : messages[i].author.id,
@@ -54,16 +55,20 @@ module.exports = {
 						"content" : messages[i].content,
 						"createdTimestamp" : messages[i].createdTimestamp
 					}
-
-					messages[i] = msg;
+					
+					formattedmessages.push(msg);
 				}
 
-				let jsonText = JSON.stringify(messages);
+				let jsonText = JSON.stringify({
+					"guildId" : channel.guild.id,
+					"channelId" : channel.id,
+					"messages" : formattedmessages
+				});
 
 				let guildsDirPath = path.join(__dirname, "../../files/guilds", interaction.guildId);
-				let txtFilePath = path.join(guildsDirPath, channel.id);
+				let txtFilePath = path.join(guildsDirPath, channel.id + ".json");
 
-				await fs.promises.mkdir(guildsDirPath);
+				await fs.promises.mkdir(guildsDirPath, { recursive : true});
 
 				await interaction.editReply('Successfully converted into JSON. Saving into file.....')
 				
