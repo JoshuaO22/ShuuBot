@@ -1,4 +1,6 @@
 const { SlashCommandBuilder } = require('discord.js');
+const fs = require('node:fs');
+const path = require('node:path');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -70,6 +72,11 @@ module.exports = {
             if (mentionable) {
                 console.log(mentionable);
             }
+
+            console.log(interaction);
+
+            // console.log(__filename);
+            // console.log(path.join(__dirname, "../../files/guilds", interaction.guildId));
 
             await interaction.reply("Welcome supreme overlord.")
         } else {
