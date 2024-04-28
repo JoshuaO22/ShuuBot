@@ -46,15 +46,28 @@ module.exports = {
 					});
 			}
 
-			console.log(messages[0])
+			for (let i = messages.length - 1; i >= 0; i--) {
+				let msg = {
+					"guildId" : messages[i].guildId,
+					"channelId" : messages[i].channelId,
+					"messageId" : messages[i].id,
+					"username" : messages[i].author.username,
+					"userId" : messages[i].author.id,
+					"isBot" : messages[i].author.bot,
+					"content" : messages[i].content,
+					"createdTimestamp" : messages[i].createdTimestamp
+				}
 
-			// for (let i = messages.length; i >= 0; i--) {
+				messages[i] = msg;
+			}
 
-			// }
+			let json_txt = JSON.stringify(messages);
 
 			if (isError) {
 				await interaction.reply('Error! Does the bot have the correct permissions?');
 			} else {
+				console.log(json_txt);
+				let txt = JSON.parse(json_txt);
 				await interaction.reply('Successfully got messages.');
 			}
 		} else {
