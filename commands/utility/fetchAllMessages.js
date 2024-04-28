@@ -46,8 +46,6 @@ module.exports = {
 				let formattedmessages = [];
 				for (let i = messages.length - 1; i >= 0; i--) {
 					let msg = {
-						//"guildId" : messages[i].guildId,
-						//"channelId" : messages[i].channelId,
 						"messageId" : messages[i].id,
 						"username" : messages[i].author.username,
 						"userId" : messages[i].author.id,
@@ -56,6 +54,10 @@ module.exports = {
 						"createdTimestamp" : messages[i].createdTimestamp
 					}
 					
+					if (messages[i].attachments.size != 0) {
+						msg["content"] = msg["content"] + " ATTACHMENT: https://discord.com/channels/" + channel.guild.id + "/" + channel.id + "/" + msg["messageId"];
+					}
+
 					formattedmessages.push(msg);
 				}
 
