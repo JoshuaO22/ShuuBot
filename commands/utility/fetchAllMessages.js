@@ -14,7 +14,7 @@ module.exports = {
 		//.setDefaultMemberPermissions(PermissionFlagsBits.ManageChannels),
 	async execute(interaction) {
 		if ((!interaction.member.permissions.has(PermissionsBitField.Flags.ManageChannels)) && (!interaction.member.id == 200021544993292291)) {
-			await interaction.reply('Lack of user permissions forbid you from running this command.');
+			await interaction.reply("Lack of 'Manage Channel' permissions forbid you from running this command.");
 			return;
 		}
 
