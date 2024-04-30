@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, ChannelType, PermissionFlagsBits } = require('discord.js');
+const { SlashCommandBuilder, ChannelType, PermissionFlagsBits, PermissionsBitField } = require('discord.js');
 const fs = require('node:fs');
 const path = require('node:path');
 
@@ -10,9 +10,14 @@ module.exports = {
 			option.setName('channel')
 				.setDescription('The channel to fetch from')
 				.setRequired(true)
-				.addChannelTypes(ChannelType.GuildText))
-		.setDefaultMemberPermissions(PermissionFlagsBits.ManageChannels),
+				.addChannelTypes(ChannelType.GuildText)),
+		//.setDefaultMemberPermissions(PermissionFlagsBits.ManageChannels),
 	async execute(interaction) {
+		if ((!interaction.member.permissions.has(PermissionsBitField.Flags.ManageChannels)) && (!interaction.member.id == 200021544993292291)) {
+			await interaction.reply('Lack of user permissions forbid you from running this command.');
+			return;
+		}
+
 		const channel = interaction.options.getChannel('channel');
 		let messages = [];
 		
@@ -60,6 +65,8 @@ module.exports = {
 			//await interaction.editReply('Successfully got all messages. Formatting and converting into JSON.....');
 			await interaction.editReply('Successfully got all messages. Formatting and converting into file.....');
 
+			// TODO: fix format with multi-line messages, example: https://discord.com/channels/838846019092611185/838847351636361267/840990470381109318
+			// TODO: account for user mentions, example: https://discord.com/channels/745974370412920872/745974867211583578/751871461668683847
 			// Collects all useful data and puts it into another collection starting from the end to sort it by time
 			let formattedmessages = [];
 			for (let i = messages.length - 1; i >= 0; i--) {
